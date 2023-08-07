@@ -1,5 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {Alert, Button, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Button,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {AuthContext} from '../../context/AuthContext';
@@ -26,20 +33,22 @@ const LoginScreen = ({navigation}: any) => {
             value={email}
             placeholder="Email"
             style={styles.input}
-            onChange={(e: any) => setEmail(e.nativeEvent.text)}
+            onChange={(e: NativeSyntheticEvent<any>) =>
+              setEmail(e.nativeEvent.text)
+            }
           />
           <TextInput
             style={styles.input}
             placeholder="Password"
             value={password}
-            onChange={(e: any) => {
+            onChange={(e: NativeSyntheticEvent<any>) => {
               setPassword(e.nativeEvent.text);
             }}
           />
           <Button
             title="Login"
             onPress={() => {
-              context?.login(email, password);
+              navigation.navigate('Home');
             }}
           />
         </View>
