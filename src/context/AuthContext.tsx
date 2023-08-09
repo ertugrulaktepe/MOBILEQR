@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {ReactNode, createContext, useEffect, useState} from 'react';
-import {Alert, Text} from 'react-native';
+import useStorage from '../app/hooks/useStorage';
 
 type IAuthContext = {
   token: string;
@@ -11,6 +12,7 @@ type IAuthContext = {
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 export const AuthProvider = ({children}: any) => {
   const [token, setToken] = useState('');
+  const {getStorage, setStorage} = useStorage();
   const login = async (username: string, password: string) => {
     try {
       const response = await axios.post(
@@ -27,6 +29,9 @@ export const AuthProvider = ({children}: any) => {
       );
 
       setToken(response.data.data.token);
+      await setStorage('token', response.data.data.token);
+
+      return response.data.data.token;
     } catch (err) {
       console.log(err);
     }

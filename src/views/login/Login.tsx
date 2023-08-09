@@ -11,17 +11,25 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {AuthContext} from '../../context/AuthContext';
 import {TextInput} from 'react-native-gesture-handler';
+import {ActivityIndicator, MD2Colors, useTheme} from 'react-native-paper';
 const Stack = createNativeStackNavigator();
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const theme = useTheme();
+  const {colors} = theme;
   const context = useContext(AuthContext);
-
+  const submitLogin = () => {
+    const login = context?.login(email, password);
+    if (login) {
+      navigation.navigate('Home');
+    }
+  };
   return (
     <>
       <View style={styles.container}>
-        <Text>{context?.token}</Text>
+        <ActivityIndicator animating={true} color={colors.primary} />
         <Text
           style={{
             marginBottom: 12,
@@ -45,12 +53,7 @@ const LoginScreen = ({navigation}: any) => {
               setPassword(e.nativeEvent.text);
             }}
           />
-          <Button
-            title="Login"
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-          />
+          <Button title="Login" onPress={submitLogin} />
         </View>
       </View>
     </>

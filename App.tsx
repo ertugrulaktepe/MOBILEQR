@@ -22,13 +22,17 @@ import {AuthProvider} from './src/context/AuthContext';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomTabs from './src/routes/BottomTabs';
 import {NavigationContainer} from '@react-navigation/native';
+import {PaperProvider, DefaultTheme} from 'react-native-paper';
+import {theme} from './src/app/configurations/theme';
 
 function App(): JSX.Element {
   return (
     <AuthProvider>
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
-          <Route />
+          <PaperProvider theme={theme}>
+            <Route />
+          </PaperProvider>
         </NavigationContainer>
       </GestureHandlerRootView>
     </AuthProvider>

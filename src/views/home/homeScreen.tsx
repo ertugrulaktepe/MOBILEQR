@@ -1,10 +1,13 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text} from 'react-native';
-import BottomTabs from '../../routes/BottomTabs';
+import useStorage from '../../app/hooks/useStorage';
 
 const HomeScreen = () => {
-  return <Text>HomeScreen</Text>;
+  return (
+    <>
+      <Text>HomeScreen</Text>
+    </>
+  );
 };
 
 export default HomeScreen;

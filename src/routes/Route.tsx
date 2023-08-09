@@ -6,15 +6,23 @@ import LoginScreen from '../views/login/Login';
 import HomeScreen from '../views/home/homeScreen';
 import {AuthContext} from '../context/AuthContext';
 import BottomTabs from './BottomTabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Route = () => {
   const auth = useContext(AuthContext);
-  console.log(auth?.token);
+  const checkToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+    return token;
+  };
+
   return (
     <Stack.Navigator
-      //initialRouteName="Login"
+      //  initialRouteName={!checkToken() ? 'Login' : 'Home'}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={BottomTabs} />

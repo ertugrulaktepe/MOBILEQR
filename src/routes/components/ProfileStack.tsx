@@ -6,7 +6,7 @@ const ProfileStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
       }}>
       <Stack.Screen name="profile_stack" component={ProfileScreen} />
     </Stack.Navigator>
