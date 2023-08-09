@@ -13,6 +13,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={({route}) => ({
         tabBarInactiveTintColor: '#222',
         tabBarActiveTintColor: 'blue',
@@ -38,7 +39,7 @@ const BottomTabs = () => {
           tabBarLabel: 'Anasayfa',
           headerShown: false,
 
-          //tabBarButton: props => <CustomTabBarButton {...props} />,
+          // tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
         component={HomeStack}
       />
