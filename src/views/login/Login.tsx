@@ -12,13 +12,14 @@ import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {AuthContext} from '../../context/AuthContext';
 import {TextInput} from 'react-native-gesture-handler';
 import {ActivityIndicator, MD2Colors, useTheme} from 'react-native-paper';
+
 const Stack = createNativeStackNavigator();
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const theme = useTheme();
-  const {colors} = theme;
+  const {colors, fonts} = theme;
   const context = useContext(AuthContext);
   const submitLogin = () => {
     const login = context?.login(email, password);
@@ -33,6 +34,8 @@ const LoginScreen = ({navigation}: any) => {
         <Text
           style={{
             marginBottom: 12,
+            fontFamily: fonts.bodyLarge.fontFamily,
+            fontSize: 54,
           }}>
           QCar
         </Text>
@@ -40,7 +43,7 @@ const LoginScreen = ({navigation}: any) => {
           <TextInput
             value={email}
             placeholder="Email"
-            style={styles.input}
+            style={[styles.input]}
             onChange={(e: NativeSyntheticEvent<any>) =>
               setEmail(e.nativeEvent.text)
             }
