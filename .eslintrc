@@ -1,0 +1,29 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+      "@typescript-eslint",
+      "react",
+      "react-hooks"
+  ],
+  "rules": {
+  },
+  "overrides": [
+      {
+          "files": [
+              "*.ts",
+              "*.tsx"
+          ],
+          "extends": [
+              "prettier"
+              // "eslint:recommended"
+              // "plugin:@typescript-eslint/recommended"
+              // "plugin:@typescript-eslint/recommended-requiring-type-checking"
+          ],
+          "parserOptions": {
+              "project": [
+                  "./tsconfig.json"
+              ] // Specify it only for TypeScript files
+          }
+      }
+  ]
+}
