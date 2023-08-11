@@ -1,17 +1,31 @@
+// React
+import {useContext, useState} from 'react';
+
+// Navigation
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React, {useContext} from 'react';
+
+// Components
 import LoginScreen from '../views/login/Login';
 import HomeScreen from '../views/home/homeScreen';
-import {AuthContext} from '../context/AuthContext';
 import BottomTabs from './BottomTabs';
+
+// Context
+import {AuthContext} from '../context/AuthContext';
+
+// Storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Stack && Tab
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 const Route = () => {
+
+  // Auth
   const auth = useContext(AuthContext);
+  
   const checkToken = async () => {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
@@ -24,7 +38,10 @@ const Route = () => {
     <Stack.Navigator
       initialRouteName={'Login'}
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+        />
       <Stack.Screen name="Home" component={BottomTabs} />
     </Stack.Navigator>
   );

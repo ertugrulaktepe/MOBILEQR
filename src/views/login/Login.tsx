@@ -1,36 +1,63 @@
-import React, {useContext, useState} from 'react';
+
+// React 
+import React, {useContext, useEffect, useState} from 'react';
 import {
-  Alert,
   Button,
   NativeSyntheticEvent,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+
+// Routes
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {AuthContext} from '../../context/AuthContext';
 import {TextInput} from 'react-native-gesture-handler';
+
+// Components
+import Loading from '../loading/Loading';
+
+// Paper
 import {ActivityIndicator, MD2Colors, useTheme} from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
 const LoginScreen = ({navigation}: any) => {
+
+  // Local State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+ 
+  // Theme
   const theme = useTheme();
+
+  // Context
   const {colors, fonts} = theme;
   const context = useContext(AuthContext);
+
+  useEffect(() => {
+    const loadApp = async () => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000); // 2 saniye süreyle yükleme animasyonunu gösteriyoruz daha sonra kişinin internet hızına göre ayarlanacak
+    };
+    loadApp();
+  }, []);
+
   const submitLogin = () => {
     const login = context?.login(email, password);
-    if (login) {
-      navigation.navigate('Home');
-    }
+      if (login) {
+        navigation.navigate('Home');
+      }
   };
-  return (
+  
+  return ( 
     <>
+    {isLoading ? 
+      <Loading/> :
       <View style={styles.container}>
-        <ActivityIndicator animating={true} color={colors.primary} />
         <Text
           style={{
             marginBottom: 12,
@@ -59,6 +86,7 @@ const LoginScreen = ({navigation}: any) => {
           <Button title="Login" onPress={submitLogin} />
         </View>
       </View>
+      }
     </>
   );
 };
