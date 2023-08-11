@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Text} from 'react-native';
-import useStorage from '../../app/hooks/useStorage';
+
+import TopBar from './components/topBar/TopBar';
 
 const HomeScreen = () => {
   return (
     <>
+      <TopBar />
       <Text>HomeScreen</Text>
     </>
   );

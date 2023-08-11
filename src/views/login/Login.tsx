@@ -19,9 +19,8 @@ import {TextInput} from 'react-native-gesture-handler';
 import Loading from '../loading/Loading';
 
 // Paper
-import { useTheme } from 'react-native-paper';
+import {ActivityIndicator, MD2Colors, useTheme} from 'react-native-paper';
 
-// Stack
 const Stack = createNativeStackNavigator();
 
 const LoginScreen = ({navigation}: any) => {
@@ -35,6 +34,7 @@ const LoginScreen = ({navigation}: any) => {
   const theme = useTheme();
 
   // Context
+  const {colors, fonts} = theme;
   const context = useContext(AuthContext);
 
   useEffect(() => {
@@ -61,6 +61,8 @@ const LoginScreen = ({navigation}: any) => {
         <Text
           style={{
             marginBottom: 12,
+            fontFamily: fonts.bodyLarge.fontFamily,
+            fontSize: 54,
           }}>
           QCar
         </Text>
@@ -68,7 +70,7 @@ const LoginScreen = ({navigation}: any) => {
           <TextInput
             value={email}
             placeholder="Email"
-            style={styles.input}
+            style={[styles.input]}
             onChange={(e: NativeSyntheticEvent<any>) =>
               setEmail(e.nativeEvent.text)
             }

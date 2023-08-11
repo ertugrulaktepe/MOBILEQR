@@ -1,0 +1,36 @@
+@import url('/src/assets/fonts/Poppins/Poppins-Regular.ttf');
+@import url('/src/assets/fonts/Poppins/Poppins-Medium.ttf');
+@import url('/src/assets/fonts/Poppins/Poppins-SemiBold.ttf');
+
+
+// Primary Colors
+$orange100: #f8cd80;
+$orange200: #ffcd82;
+$orange300: #ffb890;
+$orange400: #ff9c54;
+$orange500: #ff7122;
+$orange600: #e65a00;
+
+// Secondary Colors
+$blue800: #0A0be2;
+$blue600: #334b71;
+$gray400: #455a64;
+$purple: #373463;
+$pink: #ff6584;
+
+// Text Colors 
+$textColor: #000000;
+$textColor600: #444444;
+$textColor500: #888888;
+$textColor400: #AAAAAA;
+
+// Font Family
+$fontFamily: 'Poppins', sans-serif;
+$fontFamilyMedium: 'Poppins-Medium', sans-serif;
+$fontFamilySemiBold: 'Poppins-SemiBold', sans-serif;
+$fontFamilyRegular: 'Poppins-Regular', sans-serif;
+
+// Title Font Size
+$h1: 16px;
+$h2: 14px;
+$h3: 13px;
