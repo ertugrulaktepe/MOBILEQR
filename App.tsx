@@ -3,7 +3,7 @@ import React from 'react';
 import Route from './src/routes/Route';
 import {AuthProvider} from './src/context/AuthContext';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import BottomTabs from './src/routes/BottomTabs';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {PaperProvider, DefaultTheme, useTheme} from 'react-native-paper';
 import {theme} from './src/app/configurations/theme';

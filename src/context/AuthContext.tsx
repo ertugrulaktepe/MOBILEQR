@@ -2,16 +2,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {ReactNode, createContext, useEffect, useState} from 'react';
 import useStorage from '../app/hooks/useStorage';
-
+type IUser = {
+  name: string;
+  location: string;
+};
 type IAuthContext = {
   token: string;
   setToken: (token: string) => void;
   login: (username: string, password: string) => void;
+  user: IUser;
 };
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 export const AuthProvider = ({children}: any) => {
   const [token, setToken] = useState('');
+  const [user, setUser] = useState<IUser>({name: '', location: ''});
   const {getStorage, setStorage} = useStorage();
   const login = async (username: string, password: string) => {
     try {
@@ -30,7 +35,7 @@ export const AuthProvider = ({children}: any) => {
 
       setToken(response.data.data.token);
       await setStorage('token', response.data.data.token);
-
+      setUser(response.data.data);
       return response.data.data.token;
     } catch (err) {
       console.log(err);
@@ -38,7 +43,7 @@ export const AuthProvider = ({children}: any) => {
   };
 
   return (
-    <AuthContext.Provider value={{token, setToken, login}}>
+    <AuthContext.Provider value={{token, setToken, login, user}}>
       {children}
     </AuthContext.Provider>
   );

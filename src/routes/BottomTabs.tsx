@@ -9,6 +9,7 @@ import {
   faMugSaucer,
   faPlay,
 } from '@fortawesome/free-solid-svg-icons';
+import {StyleSheet} from 'react-native';
 const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
   return (
@@ -17,6 +18,8 @@ const BottomTabs = () => {
       screenOptions={({route}) => ({
         tabBarInactiveTintColor: '#222',
         tabBarActiveTintColor: 'blue',
+        tabBarStyle: styles.tabBarStyle,
+        tabBarShowLabel: false,
         tabBarIcon: ({focused}) => {
           let iconName;
           if (route.name === 'Home') {
@@ -36,7 +39,6 @@ const BottomTabs = () => {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarLabel: 'Anasayfa',
           headerShown: false,
 
           // tabBarButton: props => <CustomTabBarButton {...props} />,
@@ -45,11 +47,11 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        options={{
-          tabBarLabel: 'Profile',
-
-          // tabBarButton: props => <CustomTabBarButton {...props} />,
-        }}
+        options={
+          {
+            // tabBarButton: props => <CustomTabBarButton {...props} />,
+          }
+        }
         component={ProfileStack}
       />
     </Tab.Navigator>
@@ -57,3 +59,16 @@ const BottomTabs = () => {
 };
 
 export default BottomTabs;
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    position: 'absolute',
+    bottom: 25,
+    left: 20,
+    right: 20,
+    elevation: 0,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    height: 50,
+  },
+});
