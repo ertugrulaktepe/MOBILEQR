@@ -8,6 +8,7 @@ const theme = {
     orange600: '#e65a00',
     blue800: '#0A0be2',
     blue600: '#334b71',
+    blue400: '#2196f3',
     gray400: '#455a64',
     purple: '#373463',
     pink: '#ff6584',
@@ -15,6 +16,7 @@ const theme = {
     textColor600: '#444444',
     textColor500: '#888888',
     textColor400: '#AAAAAA',
+    backgroundColor: '#ffffff',
   },
   fonts: {
     fontFamily: 'Poppins, sans-serif',
@@ -26,6 +28,12 @@ const theme = {
     h1: 16,
     h2: 14,
     h3: 13,
+  },
+  inputStyles: {
+    backgroundColor: '#f6f8fe',
+    borderRadius: 20,
+    marginBottom: 12,
+    padding: 12,
   },
 };
 export default theme;

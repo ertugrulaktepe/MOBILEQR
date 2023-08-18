@@ -1,8 +1,7 @@
-
-// React 
+// React
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  Button,
+  Dimensions,
   NativeSyntheticEvent,
   StyleSheet,
   Text,
@@ -10,32 +9,35 @@ import {
 } from 'react-native';
 
 // Routes
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer, useRoute} from '@react-navigation/native';
+
 import {AuthContext} from '../../context/AuthContext';
-import {TextInput} from 'react-native-gesture-handler';
 
 // Components
 import Loading from '../loading/Loading';
 
 // Paper
-import {ActivityIndicator, MD2Colors, useTheme} from 'react-native-paper';
 
-const Stack = createNativeStackNavigator();
+import Input from '../../app/components/input/Input';
+import theme from '../../app/configurations/theme';
+import {Button} from 'react-native-paper';
+import Modal from 'react-native-modal';
+import {Svg, SvgUri} from 'react-native-svg';
+import SocialAuthButton from '../../app/components/social-auth-button/SocialAuthButton';
 
 const LoginScreen = ({navigation}: any) => {
-
   // Local State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
- 
+  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
+
   // Theme
-  const theme = useTheme();
 
   // Context
-  const {colors, fonts} = theme;
+
   const context = useContext(AuthContext);
+
+  // Effects
 
   useEffect(() => {
     const loadApp = async () => {
@@ -48,45 +50,83 @@ const LoginScreen = ({navigation}: any) => {
 
   const submitLogin = () => {
     const login = context?.login(email, password);
-      if (login) {
-        navigation.navigate('Home');
-      }
+    if (login) {
+      navigation.navigate('Home');
+    }
   };
-  
-  return ( 
+  const handleViewBottomSheet = () => {
+    setBottomSheetVisible(!bottomSheetVisible);
+  };
+  return (
     <>
-    {isLoading ? 
-      <Loading/> :
-      <View style={styles.container}>
-        <Text
-          style={{
-            marginBottom: 12,
-            fontFamily: fonts.bodyLarge.fontFamily,
-            fontSize: 54,
-          }}>
-          QCar
-        </Text>
-        <View style={styles.wrapper}>
-          <TextInput
-            value={email}
-            placeholder="Email"
-            style={[styles.input]}
-            onChange={(e: NativeSyntheticEvent<any>) =>
-              setEmail(e.nativeEvent.text)
-            }
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.wrapper}>
+            <Input
+              inputLabel={'Email'}
+              placeholder="Email giriniz"
+              onChange={(e: NativeSyntheticEvent<any>) =>
+                setPassword(e.nativeEvent.text)
+              }
+            />
+            <Input
+              inputLabel={'Şifre'}
+              textContentType="creditCardNumber"
+              secureTextEntry={true}
+              placeholder="Şifre giriniz"
+              onChange={(e: NativeSyntheticEvent<any>) =>
+                setEmail(e.nativeEvent.text)
+              }
+            />
+
+            <Button
+              onPress={submitLogin}
+              mode="contained"
+              buttonColor={theme.colors.blue400}
+              style={styles.button}>
+              Giriş Yap
+            </Button>
+          </View>
+          <View style={styles.subTitleContainer}>
+            <View style={styles.subTitleLine}></View>
+            <Text style={styles.subTitleText}>Or countinue with</Text>
+            <View style={styles.subTitleLine}></View>
+          </View>
+          <SocialAuthButton
+            onPress={handleViewBottomSheet}
+            svgUri="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            title="Continue With Google"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChange={(e: NativeSyntheticEvent<any>) => {
-              setPassword(e.nativeEvent.text);
+          <SocialAuthButton
+            onPress={handleViewBottomSheet}
+            svgUri="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            title="Continue With Apple"
+          />
+          <Modal
+            isVisible={bottomSheetVisible}
+            coverScreen={false}
+            backdropOpacity={0.2}
+            style={{
+              justifyContent: 'flex-end',
+              margin: 0,
             }}
-          />
-          <Button title="Login" onPress={submitLogin} />
+            onBackdropPress={handleViewBottomSheet}
+            swipeDirection={'up'}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                height: '40%',
+                borderTopLeftRadius: 45,
+                borderTopRightRadius: 45,
+                padding: 25,
+              }}>
+              <Text>Bottom Sheet Content</Text>
+            </View>
+          </Modal>
         </View>
-      </View>
-      }
+      )}
     </>
   );
 };
@@ -97,20 +137,34 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: theme.colors.backgroundColor,
   },
   wrapper: {
     width: '80%',
   },
-  input: {
-    color: 'blue',
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#bbb',
-    borderRadius: 5,
-    paddingHorizontal: 14,
-  },
+  input: theme.inputStyles,
   link: {
     color: 'blue',
     width: '100%',
+  },
+  button: {
+    padding: 4,
+    marginTop: 10,
+  },
+  subTitleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    marginTop: 40,
+  },
+  subTitleLine: {
+    width: 70,
+    height: 1,
+    backgroundColor: '#707374',
+  },
+  subTitleText: {
+    color: '#707374',
   },
 });
