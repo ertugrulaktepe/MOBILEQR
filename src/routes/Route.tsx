@@ -11,12 +11,6 @@ import LoginScreen from '../views/login/Login';
 import HomeScreen from '../views/home/homeScreen';
 import BottomTabs from './BottomTabs';
 
-// Context
-import {AuthContext} from '../context/AuthContext';
-
-// Storage
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 // Stack && Tab
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
