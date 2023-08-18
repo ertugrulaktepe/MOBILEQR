@@ -1,6 +1,12 @@
 // React
 import React, {useContext, useEffect, useState} from 'react';
-import {NativeSyntheticEvent, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 // Routes
 
@@ -14,14 +20,16 @@ import Loading from '../loading/Loading';
 import Input from '../../app/components/input/Input';
 import theme from '../../app/configurations/theme';
 import {Button} from 'react-native-paper';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {fa8, faEye} from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-native-modal';
+import {Svg, SvgUri} from 'react-native-svg';
+import SocialAuthButton from '../../app/components/social-auth-button/SocialAuthButton';
 
 const LoginScreen = ({navigation}: any) => {
   // Local State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
 
   // Theme
 
@@ -46,14 +54,15 @@ const LoginScreen = ({navigation}: any) => {
       navigation.navigate('Home');
     }
   };
-
+  const handleViewBottomSheet = () => {
+    setBottomSheetVisible(!bottomSheetVisible);
+  };
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
         <View style={styles.container}>
-          <View style={styles.wrapper}></View>
           <View style={styles.wrapper}>
             <Input
               inputLabel={'Email'}
@@ -80,6 +89,42 @@ const LoginScreen = ({navigation}: any) => {
               Giriş Yap
             </Button>
           </View>
+          <View style={styles.subTitleContainer}>
+            <View style={styles.subTitleLine}></View>
+            <Text style={styles.subTitleText}>Or countinue with</Text>
+            <View style={styles.subTitleLine}></View>
+          </View>
+          <SocialAuthButton
+            onPress={handleViewBottomSheet}
+            svgUri="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            title="Continue With Google"
+          />
+          <SocialAuthButton
+            onPress={handleViewBottomSheet}
+            svgUri="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            title="Continue With Apple"
+          />
+          <Modal
+            isVisible={bottomSheetVisible}
+            coverScreen={false}
+            backdropOpacity={0.2}
+            style={{
+              justifyContent: 'flex-end',
+              margin: 0,
+            }}
+            onBackdropPress={handleViewBottomSheet}
+            swipeDirection={'up'}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                height: '40%',
+                borderTopLeftRadius: 45,
+                borderTopRightRadius: 45,
+                padding: 25,
+              }}>
+              <Text>Bottom Sheet Content</Text>
+            </View>
+          </Modal>
         </View>
       )}
     </>
@@ -104,5 +149,22 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 4,
+    marginTop: 10,
+  },
+  subTitleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    marginTop: 40,
+  },
+  subTitleLine: {
+    width: 70,
+    height: 1,
+    backgroundColor: '#707374',
+  },
+  subTitleText: {
+    color: '#707374',
   },
 });
