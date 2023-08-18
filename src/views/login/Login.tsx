@@ -1,41 +1,35 @@
-
-// React 
+// React
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Button,
-  NativeSyntheticEvent,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {NativeSyntheticEvent, StyleSheet, Text, View} from 'react-native';
 
 // Routes
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer, useRoute} from '@react-navigation/native';
+
 import {AuthContext} from '../../context/AuthContext';
-import {TextInput} from 'react-native-gesture-handler';
 
 // Components
 import Loading from '../loading/Loading';
 
 // Paper
-import {ActivityIndicator, MD2Colors, useTheme} from 'react-native-paper';
 
-const Stack = createNativeStackNavigator();
+import Input from '../../app/components/input/Input';
+import theme from '../../app/configurations/theme';
+import {Button} from 'react-native-paper';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {fa8, faEye} from '@fortawesome/free-solid-svg-icons';
 
 const LoginScreen = ({navigation}: any) => {
-
   // Local State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
- 
+
   // Theme
-  const theme = useTheme();
 
   // Context
-  const {colors, fonts} = theme;
+
   const context = useContext(AuthContext);
+
+  // Effects
 
   useEffect(() => {
     const loadApp = async () => {
@@ -48,45 +42,46 @@ const LoginScreen = ({navigation}: any) => {
 
   const submitLogin = () => {
     const login = context?.login(email, password);
-      if (login) {
-        navigation.navigate('Home');
-      }
+    if (login) {
+      navigation.navigate('Home');
+    }
   };
-  
-  return ( 
+
+  return (
     <>
-    {isLoading ? 
-      <Loading/> :
-      <View style={styles.container}>
-        <Text
-          style={{
-            marginBottom: 12,
-            fontFamily: fonts.bodyLarge.fontFamily,
-            fontSize: 54,
-          }}>
-          QCar
-        </Text>
-        <View style={styles.wrapper}>
-          <TextInput
-            value={email}
-            placeholder="Email"
-            style={[styles.input]}
-            onChange={(e: NativeSyntheticEvent<any>) =>
-              setEmail(e.nativeEvent.text)
-            }
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChange={(e: NativeSyntheticEvent<any>) => {
-              setPassword(e.nativeEvent.text);
-            }}
-          />
-          <Button title="Login" onPress={submitLogin} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.wrapper}></View>
+          <View style={styles.wrapper}>
+            <Input
+              inputLabel={'Email'}
+              placeholder="Email giriniz"
+              onChange={(e: NativeSyntheticEvent<any>) =>
+                setPassword(e.nativeEvent.text)
+              }
+            />
+            <Input
+              inputLabel={'Şifre'}
+              textContentType="creditCardNumber"
+              secureTextEntry={true}
+              placeholder="Şifre giriniz"
+              onChange={(e: NativeSyntheticEvent<any>) =>
+                setEmail(e.nativeEvent.text)
+              }
+            />
+
+            <Button
+              onPress={submitLogin}
+              mode="contained"
+              buttonColor={theme.colors.blue400}
+              style={styles.button}>
+              Giriş Yap
+            </Button>
+          </View>
         </View>
-      </View>
-      }
+      )}
     </>
   );
 };
@@ -97,20 +92,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: theme.colors.backgroundColor,
   },
   wrapper: {
     width: '80%',
   },
-  input: {
-    color: 'blue',
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#bbb',
-    borderRadius: 5,
-    paddingHorizontal: 14,
-  },
+  input: theme.inputStyles,
   link: {
     color: 'blue',
     width: '100%',
+  },
+  button: {
+    padding: 4,
   },
 });

@@ -22,26 +22,21 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Route = () => {
-
-  // Auth
-  const auth = useContext(AuthContext);
-  
-  const checkToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    if (!token) {
-      return false;
-    }
-    return token;
-  };
-
   return (
     <Stack.Navigator
       initialRouteName={'Login'}
-      screenOptions={{headerShown: false}}>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-        />
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen
+        name="Login"
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerTransparent: true,
+        }}
+        component={LoginScreen}
+      />
       <Stack.Screen name="Home" component={BottomTabs} />
     </Stack.Navigator>
   );
