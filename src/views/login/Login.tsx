@@ -95,16 +95,16 @@ const LoginScreen = ({navigation}: any) => {
             <Text style={styles.subTitleText}>Or countinue with</Text>
             <View style={styles.subTitleLine}></View>
           </View>
-          <SocialAuthButton
-            onPress={handleViewBottomSheet}
-            svgUri={svg.google}
-            title="Continue With Google"
-          />
-          <SocialAuthButton
-            onPress={handleViewBottomSheet}
-            svgUri={svg.apple}
-            title="Continue With Apple"
-          />
+          <SocialAuthButton svgUri={svg.google} title="Continue With Google" />
+          <SocialAuthButton svgUri={svg.apple} title="Continue With Apple" />
+          <Text style={{fontWeight: '500', fontSize: 17, marginTop: 30}}>
+            Don't have an account?{' '}
+            <Text
+              onPress={handleViewBottomSheet}
+              style={{color: theme.colors.blue400}}>
+              Sign Up
+            </Text>
+          </Text>
           <Modal
             isVisible={bottomSheetVisible}
             coverScreen={false}
@@ -118,12 +118,51 @@ const LoginScreen = ({navigation}: any) => {
             <View
               style={{
                 backgroundColor: 'white',
-                height: '40%',
+                height: '70%',
                 borderTopLeftRadius: 45,
                 borderTopRightRadius: 45,
                 padding: 25,
               }}>
-              <Text>Bottom Sheet Content</Text>
+              <View style={styles.container}>
+                <View style={styles.wrapper}>
+                  <Input
+                    inputLabel={'Email'}
+                    placeholder="Email giriniz"
+                    onChange={(e: NativeSyntheticEvent<any>) =>
+                      setPassword(e.nativeEvent.text)
+                    }
+                  />
+
+                  <Button
+                    onPress={submitLogin}
+                    mode="contained"
+                    buttonColor={theme.colors.blue400}
+                    style={styles.button}>
+                    Giriş Yap
+                  </Button>
+                </View>
+                <View style={styles.subTitleContainer}>
+                  <View style={styles.subTitleLine}></View>
+                  <Text style={styles.subTitleText}>Or countinue with</Text>
+                  <View style={styles.subTitleLine}></View>
+                </View>
+                <SocialAuthButton
+                  svgUri={svg.google}
+                  title="Continue With Google"
+                />
+                <SocialAuthButton
+                  svgUri={svg.apple}
+                  title="Continue With Apple"
+                />
+                <Text style={{fontWeight: '500', fontSize: 17, marginTop: 30}}>
+                  Already have an account? {''}
+                  <Text
+                    onPress={handleViewBottomSheet}
+                    style={{color: theme.colors.blue400}}>
+                    Login
+                  </Text>
+                </Text>
+              </View>
             </View>
           </Modal>
         </View>
