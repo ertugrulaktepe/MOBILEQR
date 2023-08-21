@@ -23,6 +23,7 @@ import {Button} from 'react-native-paper';
 import Modal from 'react-native-modal';
 import {Svg, SvgUri} from 'react-native-svg';
 import SocialAuthButton from '../../app/components/social-auth-button/SocialAuthButton';
+import {svg} from '../../assets/icons/svgs';
 
 const LoginScreen = ({navigation}: any) => {
   // Local State
@@ -96,12 +97,12 @@ const LoginScreen = ({navigation}: any) => {
           </View>
           <SocialAuthButton
             onPress={handleViewBottomSheet}
-            svgUri="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            svgUri={svg.google}
             title="Continue With Google"
           />
           <SocialAuthButton
             onPress={handleViewBottomSheet}
-            svgUri="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            svgUri={svg.apple}
             title="Continue With Apple"
           />
           <Modal
