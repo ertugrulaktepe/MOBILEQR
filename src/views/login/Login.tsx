@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 // Routes
-
 import {AuthContext} from '../../context/AuthContext';
 
 // Components
@@ -51,9 +50,9 @@ const LoginScreen = ({navigation}: any) => {
 
   const submitLogin = () => {
     const login = context?.login(email, password);
-    if (login) {
-      navigation.navigate('Home');
-    }
+      if (login) {
+        navigation.navigate('Home');
+      }
   };
   const handleViewBottomSheet = () => {
     setBottomSheetVisible(!bottomSheetVisible);

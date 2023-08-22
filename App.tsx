@@ -7,15 +7,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {PaperProvider, DefaultTheme, useTheme} from 'react-native-paper';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-function App(): JSX.Element {
-  const [splash, setSplash] = useState<boolean>(true);
 
-  useEffect(() => {
-    const interval = setTimeout(() => {
-      setSplash(false);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+function App(): JSX.Element {
 
   return (
     <AuthProvider>
