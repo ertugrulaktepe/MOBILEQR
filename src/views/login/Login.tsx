@@ -20,16 +20,18 @@ import Input from '../../app/components/input/Input';
 import theme from '../../app/configurations/theme';
 import {Button} from 'react-native-paper';
 import Modal from 'react-native-modal';
-import {Svg, SvgUri} from 'react-native-svg';
 import SocialAuthButton from '../../app/components/social-auth-button/SocialAuthButton';
 import {svg} from '../../assets/icons/svgs';
-
+import axios from 'axios';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 const LoginScreen = ({navigation}: any) => {
   // Local State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
+  const [isRegisteredUser, setIsRegisteredUser] = useState<boolean>(false);
 
   // Theme
 
@@ -48,14 +50,44 @@ const LoginScreen = ({navigation}: any) => {
     loadApp();
   }, []);
 
-  const submitLogin = () => {
-    const login = context?.login(email, password);
-      if (login) {
-        navigation.navigate('Home');
-      }
+  const continueEmail = async () => {
+    try {
+      const response = await axios.post(
+        'http://192.168.1.38:9090/api/auth/verifyEmail',
+        {
+          email,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setIsRegisteredUser(response.data.data.isRegisteredUser);
+    } catch (err) {
+      console.log(err, 'err');
+    }
   };
   const handleViewBottomSheet = () => {
     setBottomSheetVisible(!bottomSheetVisible);
+  };
+
+  GoogleSignin.configure({
+    webClientId:
+      '290745426365-e1qee5q8bg6hncquf6ni243k5933or3f.apps.googleusercontent.com',
+    offlineAccess: true,
+  });
+
+  const googleSignIn = async () => {
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
   };
   return (
     <>
@@ -68,25 +100,27 @@ const LoginScreen = ({navigation}: any) => {
               inputLabel={'Email'}
               placeholder="Email giriniz"
               onChange={(e: NativeSyntheticEvent<any>) =>
-                setPassword(e.nativeEvent.text)
-              }
-            />
-            <Input
-              inputLabel={'Şifre'}
-              textContentType="creditCardNumber"
-              secureTextEntry={true}
-              placeholder="Şifre giriniz"
-              onChange={(e: NativeSyntheticEvent<any>) =>
                 setEmail(e.nativeEvent.text)
               }
             />
+            {isRegisteredUser && (
+              <Input
+                inputLabel={'Şifre'}
+                textContentType="creditCardNumber"
+                secureTextEntry={true}
+                placeholder="Şifre giriniz"
+                onChange={(e: NativeSyntheticEvent<any>) =>
+                  setEmail(e.nativeEvent.text)
+                }
+              />
+            )}
 
             <Button
-              onPress={submitLogin}
+              onPress={continueEmail}
               mode="contained"
               buttonColor={theme.colors.blue400}
               style={styles.button}>
-              Giriş Yap
+              Email ile devam et
             </Button>
           </View>
           <View style={styles.subTitleContainer}>
@@ -94,7 +128,11 @@ const LoginScreen = ({navigation}: any) => {
             <Text style={styles.subTitleText}>Or countinue with</Text>
             <View style={styles.subTitleLine}></View>
           </View>
-          <SocialAuthButton svgUri={svg.google} title="Continue With Google" />
+          <SocialAuthButton
+            svgUri={svg.google}
+            onPress={googleSignIn}
+            title="Continue With Google"
+          />
           <SocialAuthButton svgUri={svg.apple} title="Continue With Apple" />
           <Text style={{fontWeight: '500', fontSize: 17, marginTop: 30}}>
             Don't have an account?{' '}
@@ -133,7 +171,7 @@ const LoginScreen = ({navigation}: any) => {
                   />
 
                   <Button
-                    onPress={submitLogin}
+                    //   onPress={submitLogin}
                     mode="contained"
                     buttonColor={theme.colors.blue400}
                     style={styles.button}>

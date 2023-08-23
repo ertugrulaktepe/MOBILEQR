@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "290745426365",
+    "project_id": "qcar-13ebb",
+    "storage_bucket": "qcar-13ebb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290745426365:android:a277777fe25c55db1232d4",
+        "android_client_info": {
+          "package_name": "com.qcar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290745426365-eoctplr77u5fian0dlg15jdo2q6cgg49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGxHMkZuIaWhEuIK24SllbbqW-R8Fx8N0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290745426365-eoctplr77u5fian0dlg15jdo2q6cgg49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
