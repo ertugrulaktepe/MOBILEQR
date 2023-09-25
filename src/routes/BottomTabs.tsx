@@ -35,6 +35,8 @@ const BottomTabs = () => {
       />
     );
   };
+  const Placeholder = () => <View />;
+
   const CustomTabbarButton = ({children, onPress}: any) => {
     return (
       <TouchableOpacity
@@ -49,12 +51,6 @@ const BottomTabs = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenListeners={({navigation}) => ({
-        tabPress: event => {
-          event.preventDefault();
-          navigation.navigate('QrScan');
-        },
-      })}
       screenOptions={({route}) => ({
         tabBarInactiveTintColor: '#222',
 
@@ -77,7 +73,13 @@ const BottomTabs = () => {
           tabBarButton: props => <CustomTabbarButton {...props} />,
           tabBarIconStyle: {},
         }}
-        component={QrScanner}
+        component={Placeholder}
+        listeners={({navigation}) => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('qr_modal');
+          },
+        })}
       />
 
       <Tab.Screen name="Profile" component={ProfileStack} />

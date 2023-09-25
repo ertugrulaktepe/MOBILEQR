@@ -1,4 +1,5 @@
 import {
+  Button,
   Dimensions,
   Image,
   ImageBackground,
@@ -14,7 +15,7 @@ import {useRef, useState, useEffect} from 'react';
 import axios from 'axios';
 import ReactNativeModal from 'react-native-modal';
 
-const QrScanner = () => {
+const QrScanner = ({navigation}: any) => {
   const [result, setResult] = useState();
   const [scan, setScan] = useState<boolean>(true);
   const [visible, setVisible] = useState(false);
@@ -36,9 +37,7 @@ const QrScanner = () => {
 
   return (
     <>
-      <ReactNativeModal
-        isVisible={visible}
-        onModalHide={() => setVisible(false)}>
+      <ReactNativeModal isVisible={visible}>
         <View style={{flex: 1}}>
           {scan && (
             <QRCodeScanner
@@ -77,6 +76,13 @@ const QrScanner = () => {
             </>
           )}
         </View>
+        <Button
+          title="Kapat"
+          onPress={() => {
+            setVisible(false);
+            navigation.navigate('home_screen');
+          }}
+        />
       </ReactNativeModal>
     </>
   );
