@@ -23,9 +23,10 @@ import Modal from 'react-native-modal';
 import SocialAuthButton from '../../app/components/social-auth-button/SocialAuthButton';
 import {svg} from '../../assets/icons/svgs';
 import axios from 'axios';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
-const LoginScreen = ({navigation}: any) => {
+
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+const LoginScreen = ({navigation}: NativeStackScreenProps<any, any>) => {
   // Local State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,23 +72,26 @@ const LoginScreen = ({navigation}: any) => {
   const handleViewBottomSheet = () => {
     setBottomSheetVisible(!bottomSheetVisible);
   };
+  // GoogleSignin.configure({
+  //   webClientId:
+  //     '290745426365-e1qee5q8bg6hncquf6ni243k5933or3f.apps.googleusercontent.com',
+  //   offlineAccess: true,
+  // });
+  // async function onGoogleButtonPress() {
+  //   // Check if your device supports Google Play
+  //   await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+  //   // Get the users ID token
+  //   const {idToken} = await GoogleSignin.signIn();
+  //   console.log(idToken, 'idTokennnnnnnn');
+  //   // Create a Google credential with the token
+  //   const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  //   console.log(googleCredential, 'credientalllll');
 
-  GoogleSignin.configure({
-    webClientId:
-      '290745426365-e1qee5q8bg6hncquf6ni243k5933or3f.apps.googleusercontent.com',
-    offlineAccess: true,
-  });
-
-  const googleSignIn = async () => {
-    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-    // Get the users ID token
-    const {idToken} = await GoogleSignin.signIn();
-
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+  //   // Sign-in the user with the credential
+  //   return auth().signInWithCredential(googleCredential);
+  // }
+  const devModeLogin = () => {
+    navigation.navigate('Home');
   };
   return (
     <>
@@ -116,7 +120,7 @@ const LoginScreen = ({navigation}: any) => {
             )}
 
             <Button
-              onPress={continueEmail}
+              onPress={devModeLogin}
               mode="contained"
               buttonColor={theme.colors.blue400}
               style={styles.button}>
@@ -130,7 +134,7 @@ const LoginScreen = ({navigation}: any) => {
           </View>
           <SocialAuthButton
             svgUri={svg.google}
-            onPress={googleSignIn}
+            onPress={() => {}}
             title="Continue With Google"
           />
           <SocialAuthButton svgUri={svg.apple} title="Continue With Apple" />

@@ -8,52 +8,79 @@ import {
   faHome,
   faMugSaucer,
   faPlay,
+  faQrcode,
 } from '@fortawesome/free-solid-svg-icons';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ParamListBase, RouteProp} from '@react-navigation/native';
+import QrScanner from '../views/qr-scanner/QrScanner';
+
 const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
+  const icons = (focused: boolean, route: RouteProp<ParamListBase, string>) => {
+    let iconName;
+    if (route.name === 'HomeScreen') {
+      iconName = faHome;
+    } else if (route.name === 'Profile') {
+      iconName = faMugSaucer;
+    } else if (route.name === 'QrScan') {
+      iconName = faQrcode;
+    }
+
+    return (
+      <FontAwesomeIcon
+        style={{marginTop: 20}}
+        icon={iconName || '0'}
+        size={route.name === 'QrScan' ? 40 : 25}
+        color={focused ? 'blue' : '#222'}
+      />
+    );
+  };
+  const CustomTabbarButton = ({children, onPress}: any) => {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={{
+          bottom: 6,
+        }}>
+        <View>{children}</View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <Tab.Navigator
       initialRouteName="Home"
+      screenListeners={({navigation}) => ({
+        tabPress: event => {
+          event.preventDefault();
+          navigation.navigate('QrScan');
+        },
+      })}
       screenOptions={({route}) => ({
         tabBarInactiveTintColor: '#222',
+
         tabBarActiveTintColor: 'blue',
         tabBarStyle: styles.tabBarStyle,
         tabBarShowLabel: false,
-        tabBarIcon: ({focused}) => {
-          let iconName;
-          if (route.name === 'Home') {
-            iconName = faHome;
-          } else if (route.name === 'Profile') {
-            iconName = faMugSaucer;
-          }
-          return (
-            <FontAwesomeIcon
-              icon={iconName || '0'}
-              size={25}
-              color={focused ? 'blue' : '#222'}
-            />
-          );
-        },
+        tabBarIcon: ({focused}) => icons(focused, route),
       })}>
       <Tab.Screen
-        name="Home"
+        name="HomeScreen"
         options={{
           headerShown: false,
-
-          // tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
         component={HomeStack}
       />
+
       <Tab.Screen
-        name="Profile"
-        options={
-          {
-            // tabBarButton: props => <CustomTabBarButton {...props} />,
-          }
-        }
-        component={ProfileStack}
+        name="QrScan"
+        options={{
+          tabBarButton: props => <CustomTabbarButton {...props} />,
+          tabBarIconStyle: {},
+        }}
+        component={QrScanner}
       />
+
+      <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
   );
 };

@@ -12,24 +12,34 @@ import HomeScreen from '../views/home/homeScreen';
 import BottomTabs from './BottomTabs';
 import OpeningSlider from '../views/openingSlider/OpeningSlider';
 
-// Context
-import {AuthContext} from '../context/AuthContext';
-
-// Storage
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 // Stack && Tab
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
+const routes = [
+  {
+    routeName: 'OpeningSlider',
+    component: OpeningSlider,
+  },
+  {
+    routeName: 'Login',
+    component: LoginScreen,
+  },
+  {
+    routeName: 'Home',
+    component: BottomTabs,
+  },
+];
 const Route = () => {
   return (
     <Stack.Navigator
       initialRouteName={'OpeningSlider'}
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="OpeningSlider" component={OpeningSlider} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Home" component={BottomTabs} />
+      {routes.map(route => (
+        <Stack.Screen
+          key={route.routeName}
+          name={route.routeName}
+          component={route.component}
+        />
+      ))}
     </Stack.Navigator>
   );
 };

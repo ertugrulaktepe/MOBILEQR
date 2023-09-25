@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 
 import Route from './src/routes/Route';
 import {AuthProvider} from './src/context/AuthContext';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {PaperProvider, DefaultTheme, useTheme} from 'react-native-paper';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -14,6 +13,7 @@ function App(): JSX.Element {
     const interval = setTimeout(() => {
       setSplash(false);
     }, 4000);
+
     return () => clearInterval(interval);
   }, []);
 

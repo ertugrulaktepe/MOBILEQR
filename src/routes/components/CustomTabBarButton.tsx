@@ -1,7 +1,7 @@
 import {faHome} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {BottomTabBarButtonProps} from '@react-navigation/bottom-tabs';
-import {Image} from 'antd-mobile';
+
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
